@@ -1,0 +1,40 @@
+<project name="VideoSvc" basedir="." default="dist">
+  
+    <property name="build_dir" value="build"/>
+    <property name="dist_dir" value="dist"/>
+    <property name="src_dir" value="src"/>
+    <property name="lib_dir" value="WebContent/WEB-INF/lib"/>
+    
+    <path id="libclasspath">
+        <fileset dir="${lib_dir}" />
+    </path>
+    
+    <target name="clean">
+        <delete dir="${build_dir}"/>
+        <delete dir="${dist_dir}"/>
+    </target>
+    
+    <target name="init" depends="clean">
+        <mkdir dir="${build_dir}"/>
+        <mkdir dir="${dist_dir}"/>
+    </target>
+    
+    <target name="compile" depends="init">
+        <javac srcdir="${src_dir}" destdir="${build_dir}" includeantruntime="false">
+            <classpath refid="libclasspath"/>
+        </javac>
+    </target>
+   
+    <target name="dist" depends="compile">
+    	    <war destfile="${dist_dir}/VideoSvc.war" webxml="WebContent/WEB-INF/web.xml">
+    	        <lib dir="${lib_dir}"/>
+    	        <classes dir="${build_dir}"/>
+    	        <webinf dir="WebContent/WEB-INF"/>
+    	        <fileset dir="WebContent"/>
+    	        <fileset dir="WebContent">
+    	             <include name="*.html"/>
+    	        </fileset>    
+    	    </war>
+    </target>
+    
+</project>
